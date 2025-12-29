@@ -1,9 +1,12 @@
+import streamlit as st
 import sqlite3
 
+# Get DB connection
 def get_db():
-    conn = sqlite3.connect("rice.db")
+    conn = sqlite3.connect("rice.db", check_same_thread=False)
     return conn
 
+# Setup database
 def setup_db():
     conn = get_db()
     cur = conn.cursor()
@@ -20,3 +23,9 @@ def setup_db():
     conn.commit()
     conn.close()
 
+# Streamlit UI
+st.title("Rice Inventory Database")
+
+if st.button("Initialize Database"):
+    setup_db()
+    st.success("Database & table created successfully")
