@@ -1,3 +1,4 @@
+import streamlit as st
 from database import get_db
 
 def update_inventory(variety, qty, rate):
@@ -29,3 +30,16 @@ def update_inventory(variety, qty, rate):
     conn.commit()
     conn.close()
 
+# ---------- Streamlit UI ----------
+st.title("Update Rice Inventory")
+
+variety = st.text_input("Rice Variety")
+qty = st.number_input("Quantity", min_value=0.0, step=1.0)
+rate = st.number_input("Rate per Unit", min_value=0.0, step=0.1)
+
+if st.button("Update Inventory"):
+    if variety and qty > 0:
+        update_inventory(variety, qty, rate)
+        st.success("Inventory updated successfully")
+    else:
+        st.error("Enter valid variety and quantity")
